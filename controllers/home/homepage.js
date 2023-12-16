@@ -4,11 +4,13 @@ const getFriends = async (req, res) => {
   try {
     const userList = await Auth.find({});
     const users = [];
-    userList.forEach((element) => {
-      if (element.email !== req.query.email) users.push(element);
+    userList.forEach((user) => {
+      if (user.email !== req.query.email)
+        users.push({ name: user.name, email: user.email });
     });
 
-    res.json({ users: users });
+    if (users.length) res.json({ success: true, users: users });
+    else res.json({ success: false });
   } catch (e) {
     console.log(e);
   }
