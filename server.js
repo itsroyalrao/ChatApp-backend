@@ -17,7 +17,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://chatt-appp.netlify.app"],
     methods: ["GET", "POST"],
   },
 });
@@ -31,13 +31,21 @@ app.use("/chats", chatRoutes);
 app.use("/profile", profileRoutes);
 
 io.on("connection", (socket) => {
-  console.log("A user is connected", socket.id);
+  socket.on("add_yourself", (email) => {
+    socket.join(email);
+    console.log(email, "room joined");
+  });
+  socket.on("join_room", (data) => {
+    socket.join(data.id);
+    console.log(data.id, "room joined");
+  });
+  // console.log("A user is connected", socket.id);
   socket.on("send_message", (data) => {
-    io.emit("receive_message", data);
+    socket.to(data[1]).emit("receive_message", data[0]);
   });
-  socket.on("disconnect", () => {
-    console.log("A user is disconnected");
-  });
+  // socket.on("disconnect", () => {
+  //   console.log("A user is disconnected");
+  // });
 });
 
 const port = 3000;
