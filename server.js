@@ -1,5 +1,3 @@
-console.clear();
-
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
@@ -39,16 +37,12 @@ io.on("connection", (socket) => {
     socket.join(data.id);
     console.log(data.id, "room joined");
   });
-  // console.log("A user is connected", socket.id);
   socket.on("send_message", (data) => {
-    socket.to(data[1]).emit("receive_message", data[0]);
+    io.emit("receive_message", data[0]);
   });
-  // socket.on("disconnect", () => {
-  //   console.log("A user is disconnected");
-  // });
 });
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 (async () => {
   await connectDB(process.env.MONGO_URI);
   server.listen(port, () => console.log(`Server listening on port ${port}!`));

@@ -5,13 +5,9 @@ const chatSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  email: {
-    type: String,
+  roomID: {
+    type: Number,
     required: true,
-  },
-  room: {
-    type: String,
-    // required: true,
   },
   createdAt: {
     type: String,
