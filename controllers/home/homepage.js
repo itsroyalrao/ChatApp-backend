@@ -1,4 +1,18 @@
 import Auth from "../../models/auth/auth.js";
+import jwt from "jsonwebtoken";
+
+const isAuthorized = async (req, res) => {
+  const { accessToken } = req.body;
+
+  jwt.verify(accessToken, "jwt-access-token-secret-key", (err, decoded) => {
+    if (err) {
+      return res.json({ success: false });
+    } else {
+      req.email = decoded.email;
+      return res.json({ success: true, email: decoded.email });
+    }
+  });
+};
 
 const getFriends = async (req, res) => {
   try {
@@ -25,4 +39,4 @@ const getFriend = async (req, res) => {
   }
 };
 
-export { getFriends, getFriend };
+export { isAuthorized, getFriends, getFriend };

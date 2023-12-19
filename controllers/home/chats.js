@@ -18,7 +18,9 @@ const postChats = async (req, res) => {
 
 const getChats = async (req, res) => {
   try {
-    const chats = await Chat.find({ roomID: req.query.roomID });
+    const roomID = req.query.roomID;
+
+    const chats = await Chat.find({ roomID });
     if (chats.length) res.json({ success: true, chats: chats });
     else res.json({ success: false });
   } catch (e) {
@@ -31,7 +33,7 @@ const getRoomID = async (req, res) => {
     const { email, friend } = req.body;
     const room = await Room.findOne({ users: { $all: [friend, email] } });
     if (!room) {
-      const roomID = Math.random();
+      const roomID = Math.random().toString();
       await Room.create({ users: [email, friend], roomID });
       return res.json({ success: true, roomID });
     }

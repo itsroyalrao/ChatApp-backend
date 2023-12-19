@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import { Server } from "socket.io";
 import http from "http";
+import cookieParser from "cookie-parser";
 
 import connectDB from "./db/connect.js";
 import authRoutes from "./routes/auth/auth.js";
@@ -21,7 +22,13 @@ const io = new Server(server, {
 });
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://chatt-appp.netlify.app"],
+    credentials: true,
+  })
+);
 
 app.use("/auth", authRoutes);
 app.use("/home", homeRoutes);
@@ -35,15 +42,14 @@ io.on("connection", (socket) => {
   });
   socket.on("join_room", (data) => {
     socket.join(data.id);
-    console.log(data.id, "room joined");
   });
   socket.on("send_message", (data) => {
     io.emit("receive_message", data[0]);
   });
 });
 
-const port = process.env.PORT || 3000;
 (async () => {
+  const port = process.env.PORT || 3000;
   await connectDB(process.env.MONGO_URI);
   server.listen(port, () => console.log(`Server listening on port ${port}!`));
 })();
