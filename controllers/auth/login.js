@@ -30,10 +30,10 @@ const setCookies = async (req, res) => {
   const { email } = req.query;
 
   const accessToken = jwt.sign({ email }, "jwt-access-token-secret-key", {
-    expiresIn: "2m",
+    expiresIn: "24h",
   });
   const refreshToken = jwt.sign({ email }, "jwt-refresh-token-secret-key", {
-    expiresIn: "2m",
+    expiresIn: "24h",
   });
   res.json({ success: true, tokens: { accessToken, refreshToken } });
 };
