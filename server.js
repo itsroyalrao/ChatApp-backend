@@ -51,5 +51,7 @@ io.on("connection", (socket) => {
 (async () => {
   const port = process.env.PORT || 3000;
   await connectDB(process.env.MONGO_URI);
-  server.listen(port, () => console.log(`Server listening on port ${port}!`));
+  server.listen(port, () =>
+    console.log(`Server is listening on port ${port}!`)
+  );
 })();
