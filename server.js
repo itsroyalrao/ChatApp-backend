@@ -26,6 +26,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://chatt-appp.netlify.app"],
+    methods: ["post", "get", "put", "delete"],
     credentials: true,
   })
 );
