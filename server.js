@@ -31,6 +31,14 @@ app.use(
   })
 );
 
+// for vercel
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://chatt-appp.netlify.app");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
 app.use("/auth", authRoutes);
 app.use("/home", homeRoutes);
 app.use("/chats", chatRoutes);
