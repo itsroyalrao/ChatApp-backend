@@ -31,17 +31,6 @@ app.use(
   })
 );
 
-// for vercel
-app.options("/home/cookies", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "https://chatt-appp.netlify.app");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  res.header("Access-Control-Allow-Credentials", "true");
-
-  // Respond with a status of 200 for OPTIONS requests
-  res.sendStatus(200);
-});
-
 app.use("/auth", authRoutes);
 app.use("/home", homeRoutes);
 app.use("/chats", chatRoutes);
