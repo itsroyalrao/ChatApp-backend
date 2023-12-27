@@ -23,21 +23,14 @@ const io = new Server(server, {
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://chatt-appp.netlify.app"],
-    methods: ["POST", "GET", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
-
-// for vercel
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://chatt-appp.netlify.app");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
+// app.use(
+//   cors({
+//     origin: ["http://localhost:5173", "https://chatt-appp.netlify.app"],
+//     methods: ["POST", "GET", "PUT", "DELETE"],
+//     credentials: true,
+//   })
+// );
+app.use(cors());
 
 app.use("/auth", authRoutes);
 app.use("/home", homeRoutes);
