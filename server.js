@@ -23,14 +23,13 @@ const io = new Server(server, {
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(
-//   cors({
-//     origin: ["http://localhost:5173", "https://chatt-appp.netlify.app"],
-//     methods: ["POST", "GET", "PUT", "DELETE"],
-//     credentials: true,
-//   })
-// );
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://chatt-appp.netlify.app"],
+    methods: ["POST", "GET", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 app.use("/auth", authRoutes);
 app.use("/home", homeRoutes);
